@@ -1,0 +1,28 @@
+{
+  "name": "jira-issue-transitions",
+  "version": "1.0.0",
+  "description": "Github action for move jira tickets",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pineapple-lab/jira-issue-transitions.git"
+  },
+  "keywords": [],
+  "author": "Julio Suarez <juliosuarezf93@gmail.com> (https://github.com/julioE3274)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pineapple-lab/jira-issue-transitions/issues"
+  },
+  "homepage": "https://github.com/pineapple-lab/jira-issue-transitions#readme",
+  "dependencies": {
+    "@actions/core": "^1.8.0",
+    "@actions/github": "^5.0.1"
+  },
+  "devDependencies": {
+    "typescript": "^4.6.4"
+  }
+}
