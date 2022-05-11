@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx ts-node index.ts",
+    "build": "ncc build index.ts --license licenses.txt ",
     "tsc": "tsc"
   },
   "repository": {
@@ -20,9 +22,11 @@
   "homepage": "https://github.com/pineapple-lab/jira-issue-transitions#readme",
   "dependencies": {
     "@actions/core": "^1.8.0",
-    "@actions/github": "^5.0.1"
+    "@actions/github": "^5.0.1",
+    "axios": "^0.27.2"
   },
   "devDependencies": {
+    "@types/node": "^17.0.31",
     "typescript": "^4.6.4"
   }
 }

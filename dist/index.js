@@ -8630,6 +8630,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(260));
 const github = __importStar(__nccwpck_require__(1252));
+const action_1 = __nccwpck_require__(6571);
 try {
     // `who-to-greet` input defined in action metadata file
     const nameToGreet = core.getInput('who-to-greet');
@@ -8639,10 +8640,123 @@ try {
     // Get the JSON webhook payload for the event that triggered the workflow
     const payload = JSON.stringify(github.context.payload, undefined, 2);
     console.log(`The event payload: ${payload}`);
+    const action = new action_1.Action();
 }
 catch (error) {
     core.setFailed(error.message);
 }
+
+
+/***/ }),
+
+/***/ 6571:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Action = void 0;
+const core = __importStar(__nccwpck_require__(260));
+const utils_1 = __nccwpck_require__(6928);
+class Action {
+    constructor() {
+        this.token = '';
+        this.issues = [];
+        this.toStatus = '';
+        this.fromStatus = '';
+        this.comment = '';
+        this.initializeParams();
+        this.validateParams();
+    }
+    initializeParams() {
+        this.token = core.getInput('token');
+        this.toStatus = core.getInput('to');
+        this.fromStatus = core.getInput('from');
+        this.comment = core.getInput('comment');
+        const issues = core.getInput('issues');
+        this.issues = (0, utils_1.isNotEmptyString)(issues) ? issues.split(',') : [];
+    }
+    validateParams() {
+        if (!(0, utils_1.isNotEmptyString)(this.token)) {
+            this.setFailed('Jira api token is required!');
+        }
+        if (!(0, utils_1.isNoEmptyArray)(this.issues)) {
+            this.setFailed('Issues is required!');
+        }
+        if (!(0, utils_1.isNotEmptyString)(this.toStatus)) {
+            this.setFailed('To status is required!');
+        }
+    }
+    execute() {
+    }
+    setFailed(message) {
+        core.setFailed(message);
+        throw new Error(message);
+    }
+}
+exports.Action = Action;
+
+
+/***/ }),
+
+/***/ 6928:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.isArray = exports.isNoEmptyArray = exports.isNull = exports.isUndefined = exports.isNullOrUndefined = exports.isValidString = exports.isNotEmptyString = void 0;
+function isNotEmptyString(value) {
+    return isValidString(value) && value !== '';
+}
+exports.isNotEmptyString = isNotEmptyString;
+function isValidString(value) {
+    return !isNullOrUndefined(value) && typeof value === 'string';
+}
+exports.isValidString = isValidString;
+function isNullOrUndefined(value) {
+    return isUndefined(value) || isNull(value);
+}
+exports.isNullOrUndefined = isNullOrUndefined;
+function isUndefined(value) {
+    return value === undefined;
+}
+exports.isUndefined = isUndefined;
+function isNull(value) {
+    return value === null;
+}
+exports.isNull = isNull;
+function isNoEmptyArray(value) {
+    return isArray(value) && value.length > 0;
+}
+exports.isNoEmptyArray = isNoEmptyArray;
+function isArray(value) {
+    return !isNullOrUndefined(value) && Array.isArray(value);
+}
+exports.isArray = isArray;
 
 
 /***/ }),

@@ -1,13 +1,30 @@
 name: 'Hello World'
 description: 'Greet someone and record the time'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  jira-api-token:
+    description: 'Jira api token'
     required: true
-    default: 'World'
+  jira-email:
+    description: 'Jira email related to api token'
+    required: true
+  jira-base-url:
+    description: 'Jira base url'
+    required: true
+  issues:
+    description: 'Issues to move! It must be separated by ","'
+    required: true
+  to:
+    description: 'Final status! It is case sensitive!'
+    required: true
+  from:
+    description: 'Only if the issues are in this status!'
+    required: false
+  comment:
+    description: 'Final status! It is case sensitive!'
+    required: false
 outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  moved-issues:
+    description: 'How much issues was moved!'
 runs:
   using: 'node16'
   main: 'dist/index.js'
