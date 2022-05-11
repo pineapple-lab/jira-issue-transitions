@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - develop
+      - testing
 
 jobs:
   hello_world_job:
@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Hello world action step
         id: hello
-        uses: pineapple-lab/jira-issue-transitions@v1.1
+        uses: pineapple-lab/jira-issue-transitions@v1.3
         with:
           who-to-greet: 'MyName isTheBest'
       # Use the output from the `hello` step
