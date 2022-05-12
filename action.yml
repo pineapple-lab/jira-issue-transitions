@@ -1,5 +1,5 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'Change jira issues status'
+description: 'Move jira issues to a status and set link to github action'
 inputs:
   jira-api-token:
     description: 'Jira api token'

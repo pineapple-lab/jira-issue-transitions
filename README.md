@@ -46,7 +46,7 @@ Total of finale moved issues.
 
 ```
 - name: Move jira issues
-  uses: pineapple-lab/jira-issue-transitions@v2.2
+  uses: pineapple-lab/jira-issue-transitions@v2.3
   with:
     jira-api-token: "${{secrets.JIRA_API_TOKEN}}"
     jira-email: "${{secrets.JIRA_USER_EMAIL}}"
