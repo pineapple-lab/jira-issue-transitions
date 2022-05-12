@@ -13567,19 +13567,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(260));
-const github = __importStar(__nccwpck_require__(1252));
 const action_1 = __nccwpck_require__(6571);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            // `who-to-greet` input defined in action metadata file
-            const nameToGreet = core.getInput('who-to-greet');
-            console.log(`Hello ${nameToGreet}!`);
-            const time = (new Date()).toTimeString();
-            core.setOutput("time", time);
-            // Get the JSON webhook payload for the event that triggered the workflow
-            const payload = JSON.stringify(github.context.payload, undefined, 2);
-            console.log(`The event payload: ${payload}`);
             const action = new action_1.Action();
             yield action.execute();
         }
