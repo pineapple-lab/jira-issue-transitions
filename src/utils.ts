@@ -26,3 +26,15 @@ export function isNoEmptyArray(value: any[]) {
 export function isArray(value: any[]) {
 	return !isNullOrUndefined(value) && Array.isArray(value);
 }
+
+export function isValidNumber(value: any) {
+	return !isNullOrUndefined(value) && isNotNaNNumber(value);
+}
+
+export function isNotNaNNumber(value: number) {
+	return isNumber(value) && !isNaN(value);
+}
+
+export function isNumber(value: any) {
+	return typeof value === 'number';
+}

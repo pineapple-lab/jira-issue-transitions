@@ -10,36 +10,32 @@ export class Action {
     private email: string = '';
     private issues: string[] = [];
     private toStatus: string = '';
-    private fromStatus: string = '';
-    private comment: string = '';
+    private fromStatus: string[] = [];
+	private avoidStatus: string[] = [];
+    private title: string = '';
 	private jira: Jira = null as any;
 
     constructor() {
         this.initializeParams();
-		this.justTasting();
 		this.validateParams();
 		this.jira = new Jira(this.token, this.email, this.url);
     }
-
-	justTasting() {
-		// this.token = 'Basic anVsaW8uY2VzYXJAcGluZWFwcGxlLWxhYi5jb206NEZGdlNlNXJmMUtXMHZiUDd0THREMTMz';
-		this.token = '4FFvSe5rf1KW0vbP7tLtD133';
-		this.url = 'https://jeminc.atlassian.net';
-		this.email = 'julio.cesar@pineapple-lab.com';
-		this.issues = 'OM-2065,OM-2054,OM-879,OM-33333333'.split(',') as string[];
-		this.toStatus = 'To Do' as string;
-	}
 
 	private initializeParams() {
 		this.token = core.getInput('jira-api-token');
 		this.email = core.getInput('jira-email');
 		this.url = core.getInput('jira-base-url');
 		this.toStatus = core.getInput('to');
-		this.fromStatus = core.getInput('from');
-		this.comment = core.getInput('comment');
+		this.title = core.getInput('title');
+
+		const fromStatus = core.getInput('from');
+		this.fromStatus = isNotEmptyString(fromStatus) ? fromStatus.split(',') : [];
 
 		const issues = core.getInput('issues');
 		this.issues = isNotEmptyString(issues) ? issues.split(',') : [];
+
+		const avoidStatus = core.getInput('avoid');
+		this.avoidStatus = isNotEmptyString(avoidStatus) ? avoidStatus.split(',') : [];
 	}
 
 	private validateParams() {
@@ -53,7 +49,7 @@ export class Action {
 
 	async execute() {
 
-		const issuesToMove = this.issues;
+		const issuesToMove = await this.getFinalIssues();
 		let movedIssues = 0;
 
 		const promises = issuesToMove.map( async issue => {
@@ -61,6 +57,7 @@ export class Action {
 			const result = await this.jira.moveIssue(issue, transitionId);
 			if (result) {
 				movedIssues++;
+				await this.jira.addRemoteLink(issue, this.toStatus, this.title);
 			}
 		} );
 
@@ -71,6 +68,18 @@ export class Action {
 		}
 
 		core.setOutput('moved-issues', movedIssues);
+	}
+
+	async getFinalIssues(): Promise<string[]> {
+		if (!isNoEmptyArray(this.fromStatus) && !isNoEmptyArray(this.avoidStatus)) {
+			return this.issues;
+		}
+		if (isNoEmptyArray(this.fromStatus)) {
+			const issues: { key: string }[] = await this.jira.findJirIssuesByStatus(this.fromStatus);
+			return this.issues.filter(issue => issues.some( i => i.key === issue ));
+		}
+		const avoidIssues: { key: string }[] = await this.jira.findJirIssuesByStatus(this.avoidStatus);
+		return this.issues.filter( (issue) => !avoidIssues.some( (avoidIssue) => issue === avoidIssue.key));
 	}
 
 }

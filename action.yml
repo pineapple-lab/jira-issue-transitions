@@ -19,8 +19,8 @@ inputs:
   from:
     description: 'Only if the issues are in this status!'
     required: false
-  comment:
-    description: 'Final status! It is case sensitive!'
+  title:
+    description: 'Title for github external link in Jira'
     required: false
 outputs:
   moved-issues:
