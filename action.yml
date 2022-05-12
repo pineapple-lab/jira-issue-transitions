@@ -17,7 +17,10 @@ inputs:
     description: 'Final status! It is case sensitive!'
     required: true
   from:
-    description: 'Only if the issues are in this status!'
+    description: 'Only if the issues are in this status!. It can be separated by ","'
+    required: false
+  avoid:
+    description: "Status will be avoided, it only happen if you don't set from status. It can be separated by ','"
     required: false
   title:
     description: 'Title for github external link in Jira'

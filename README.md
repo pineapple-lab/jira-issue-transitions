@@ -1,26 +1,58 @@
 # jira-issue-transitions
-Github action for move jira tickets 
+Github action for move jira issues. 
 
-# Hello world javascript action
+## **Inputs**
+## `jira-api-token`
 
-This action prints "Hello World" or "Hello" + the name of a person to greet to the log.
+***Required*** You must create a Jira API Token for use this action:
+[You can access to this link after be logged into jira solution for manage your tokens.](https://id.atlassian.com/manage-profile/security/api-tokens)
 
-## Inputs
+## `jira-email`
 
-## `who-to-greet`
+***Required*** You need to set the same email that you used for create the Jira API token before.
 
-**Required** The name of the person to greet. Default `"World"`.
+## `jira-base-url`
 
-## Outputs
+***Required*** You must to set the Jira url. Example: https://myserver.atlassian.net
 
-## `time`
+## `issues`
 
-The time we greeted you.
+***Required*** You must specify the issues that will be moved and it can be separated by ",". Example: `OM-123,OM-456,OM-789`
+
+## `to`
+
+***Required*** Status where the issue will be moved.
+
+## `from`
+
+***Optional*** Status where issues must be before be moved. You can put many status separated by ",". Example: 'Pending Deployment'
+
+## `avoid`
+
+***Optional*** Status of issues that will be avoid for movement. It is not used if the "from" property has value. You can put many status separated by ",". Example: 'Done,QA Testing'
+
+## `title`
+
+***Optional*** Title for github external link in Jira.
+
+
+## **Outputs**
+
+## `moved-issues`
+
+Total of finale moved issues.
 
 ## Example usage
 
-``
-uses: actions/hello-world-javascript-action@v1.1
-with:
-  who-to-greet: 'Mona the Octocat'
-``
+```
+- name: Move jira issues
+  uses: pineapple-lab/jira-issue-transitions@v2.1
+  with:
+    jira-api-token: "${{secrets.JIRA_API_TOKEN}}"
+    jira-email: "${{secrets.JIRA_USER_EMAIL}}"
+    jira-base-url: 'https://example.atlassian.net'
+    issues: 'OM-123,OM-456,OM-789'
+    to: 'In Progress'
+    from: 'To Do'
+    title: 'Deploy to develop'
+```
