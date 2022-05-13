@@ -17,7 +17,7 @@ Github action for move jira issues.
 
 ## `issues`
 
-***Required*** You must specify the issues that will be moved and it can be separated by ",". Example: `OM-123,OM-456,OM-789`
+***Required*** You must specify the issues that will be moved. It can be separated by ",". Example: `OM-123,OM-456,OM-789`
 
 ## `to`
 
@@ -25,7 +25,7 @@ Github action for move jira issues.
 
 ## `from`
 
-***Optional*** Status where issues must be before be moved. You can put many status separated by ",". Example: 'Pending Deployment'
+***Optional*** Status where the problems should be before being moved. You can put many status separated by ",". Example: 'Pending Deployment,Tested ready for deploy'
 
 ## `avoid`
 
@@ -46,7 +46,7 @@ Total of finale moved issues.
 
 ```
 - name: Move jira issues
-  uses: pineapple-lab/jira-issue-transitions@v2.3
+  uses: pineapple-lab/jira-issue-transitions@v2.5
   with:
     jira-api-token: "${{secrets.JIRA_API_TOKEN}}"
     jira-email: "${{secrets.JIRA_USER_EMAIL}}"
